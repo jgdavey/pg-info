@@ -5,7 +5,7 @@
   <artifactId>pg-info</artifactId>
   <version>0.1.0-SNAPSHOT</version>
   <name>jgdavey/pg-info</name>
-  <description>FIXME: my new library.</description>
+  <description>Postgres information for Clojure projects</description>
   <url>https://github.com/jgdavey/pg-info</url>
   <licenses>
     <license>
@@ -38,10 +38,6 @@
     <repository>
       <id>clojars</id>
       <url>https://repo.clojars.org/</url>
-    </repository>
-    <repository>
-      <id>sonatype</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
     </repository>
   </repositories>
   <distributionManagement>
