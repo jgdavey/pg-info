@@ -14,6 +14,12 @@
   ([conn opts cleanable]
    (proto/clean cleanable conn opts)))
 
-(defn clean-fixture [conn f]
-  (f)
-  (clean conn))
+(defn clean-after-fixture [conn opts f]
+  (fn []
+    (f)
+    (clean conn opts)))
+
+(defn clean-before-fixture [conn opts f]
+  (fn []
+    (clean conn opts)
+    (f)))
