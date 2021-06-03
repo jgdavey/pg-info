@@ -17,7 +17,7 @@
   java.util.List
   (to-vec [obj] (vec obj))
 
-  org.postgresql.jdbc.PgArray
+  java.sql.Array
   (to-vec [obj]
     (vec (.getArray obj)))
 
