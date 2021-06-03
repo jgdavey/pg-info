@@ -7,19 +7,32 @@
 
 (def default-query (slurp (io/resource "com/joshuadavey/pg_info.sql")))
 
-(defn- pgarray-vec [a]
-  (when a
-    (vec (.getArray a))))
+(defprotocol ToVec
+  (to-vec [obj]))
+
+(extend-protocol ToVec
+  clojure.lang.IPersistentCollection
+  (to-vec [obj] (vec obj))
+
+  java.util.List
+  (to-vec [obj] (vec obj))
+
+  org.postgresql.jdbc.PgArray
+  (to-vec [obj]
+    (vec (.getArray obj)))
+
+  nil
+  (to-vec [obj] nil))
 
 (defn- normalize-cols [m]
   (-> m
-      (update :pkey pgarray-vec)
-      (update :dependents pgarray-vec)
-      (update :colid pgarray-vec)
-      (update :dep-to pgarray-vec)
-      (update :dep-from pgarray-vec)
-      (update :index-names pgarray-vec)
-      (update :dependencies pgarray-vec)))
+      (update :pkey to-vec)
+      (update :dependents to-vec)
+      (update :colid to-vec)
+      (update :dep-to to-vec)
+      (update :dep-from to-vec)
+      (update :index-names to-vec)
+      (update :dependencies to-vec)))
 
 (defn fetch-pg-info
   ([conn]
