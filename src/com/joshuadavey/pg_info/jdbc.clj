@@ -81,14 +81,12 @@
 (defn disabling-referential-integrity [conn table-names f]
   (try
     (jdbc/with-db-transaction [tx conn]
-      (jdbc/execute! tx "SET log_statement = 'all'")
       (doseq [table table-names]
         (jdbc/execute! tx (str "alter table " table " disable trigger all"))))
     (f)
     (finally
       (jdbc/with-db-transaction [tx conn]
-        (jdbc/execute! tx "SET log_statement = 'all'")
-       (doseq [table table-names]
+        (doseq [table table-names]
          (jdbc/execute! tx (str "alter table " table " enable trigger all")))))))
 
 (defmacro with-no-referential-integrity [index conn & body]
